@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity >=0.8.0 <0.8.20;
 
 pragma experimental ABIEncoderV2;
 
@@ -33,6 +33,7 @@ contract HealthRecords {
     mapping(uint => uint[]) public patientPrescriptions;
     uint patientCount;
     uint doctorCount;
+    uint medicineCount;
     address[] public doctorAddresses;
 
     constructor() {
@@ -74,13 +75,18 @@ contract HealthRecords {
         emit DiseaseAdded(_patid, _disease);
     }
 
-    function addMedicine(uint _id, string memory _name, uint _expiryDate, string memory _dose, uint _price) public {
-        medicines[_id] = Medicine(_id, _name, _expiryDate, _dose, _price);
-        emit MedicineAdded(_id, _name, _expiryDate, _dose, _price);
+    function addMedicine(string memory _name, uint _expiryDate, string memory _dose, uint _price) public {
+        medicineCount++;
+        medicines[medicineCount] = Medicine(medicineCount, _name, _expiryDate, _dose, _price);
+        emit MedicineAdded(medicineCount, _name, _expiryDate, _dose, _price);
     }
 
     function prescribeMedicine(uint _patid, uint _medid) public onlyDoctors {
         require(patients[_patid].age > 0, "Patient not found.");
+        // Check if the medicine ID is not already prescribed
+        for (uint i = 0; i < patientPrescriptions[_patid].length; i++) {
+            require(patientPrescriptions[_patid][i] != _medid, "Medicine already prescribed to the patient.");
+        }
         patientPrescriptions[_patid].push(_medid);
         emit MedicinePrescribed(_patid, _medid);
     }
@@ -90,16 +96,12 @@ contract HealthRecords {
         emit PatientDetailsUpdated(_patid, _age);
     }
 
-    function viewPatientData(uint _patient) public view returns (uint, uint, string memory, string memory) {
-        return (patients[_patient].age, patients[_patient].age, patients[_patient].name, patients[_patient].diseases);
+    function viewPatientData(uint _patient) public view returns (string memory, uint, string memory) {
+        return (patients[_patient].name, patients[_patient].age, patients[_patient].diseases);
     }
 
     function viewMedicineDetails(uint _id) public view returns (string memory, uint, string memory, uint) {
         return (medicines[_id].name, medicines[_id].expiryDate, medicines[_id].dose, medicines[_id].price);
-    }
-
-    function viewPatientDataByDoctor(uint _patient) public view onlyDoctors returns (uint, uint, string memory, string memory) {
-        return viewPatientData(_patient);
     }
 
     function viewPrescribedMedicine(uint _patient) public view onlyDoctors returns (uint[] memory) {
@@ -128,5 +130,13 @@ contract HealthRecords {
             allDoctors[i] = doctor;
         }
         return allDoctors;
+    }
+
+    function getMedicineList() public view returns (Medicine[] memory) {
+        Medicine[] memory allMedicines = new Medicine[](medicineCount);
+        for (uint i = 1; i <= medicineCount; i++) {
+            allMedicines[i - 1] = medicines[i];
+        }
+        return allMedicines;
     }
 }

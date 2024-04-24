@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Web3.js Application</title>
+    <!-- Include web3.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.3/dist/web3.min.js"></script>
+    <script src="../src/app.js"></script>
+
+    <script>
+        initializeContract();
+        // Load doctors and populate doctor list
+        window.onload = async function () {
+            await populateDoctors();
+        };
+    </script>
+</head>
+
+<body>
+
+    <h1>Health Records DApp</h1>
+    <!-- Doctor Selection -->
+    <h2>List of Doctors:</h2>
+    <select id="doctorSelect">
+        <option value="">Select Doctor</option>
+    </select>
+
+    <!-- Patient Selection -->
+    <h2>List of Patients:</h2>
+    <select id="patientSelect">
+    </select>
+
+    <!-- Display Patient Details -->
+    <div id="patientDetails" style="display: none;">
+        <h2>Patient Details:</h2>
+        <p><strong>Name:</strong> <span id="patientName"></span></p>
+        <p><strong>Age:</strong> <span id="patientAge"></span></p>
+        <p><strong>Diseases:</strong> <span id="patientDiseases"></span></p>
+        <p><strong>Medicines:</strong> <span id="patientMeds"></span></p>
+    </div>
+
+    <!-- Add Disease Form -->
+    <div id="addDiseaseForm" style="display:none;">
+        <h2>Add Disease</h2>
+        <input type="text" id="diseaseInput" placeholder="Enter Disease">
+        <button onclick="addDisease()">Add Disease</button>
+    </div>
+    
+    <!-- Prescribe Medicine Form -->
+    <div id="prescribeMedicineForm" style="display:none;">
+        <h2>Prescribe Medicine</h2>
+        <select id="medicineList"></select>
+        <button onclick="prescribeMedicine()">Prescribe</button>
+    </div>
+    
+    <!-- Display Medicine Details -->
+    <div id="medicineDetails" style="display:none;">
+        <h2>Prescribed Medicine Details:</h2>
+        <p><strong>Name:</strong> <span id="medicineName"></span></p>
+        <p><strong>Expiry Date:</strong> <span id="medicineExpiry"></span></p>
+        <p><strong>Dose:</strong> <span id="medicineDose"></span></p>
+        <p><strong>Price:</strong> <span id="medicinePrice"></span></p>
+    </div>
+</body>
+
+</html>

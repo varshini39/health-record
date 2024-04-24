@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Web3.js Application</title>
+    <!-- Include web3.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.3/dist/web3.min.js"></script>
+    <script src="../src/app.js"></script>
+
+    <script>
+        initializeContract();
+        
+    </script>
+</head>
+
+<body>
+    <h1>Health Records Admin Console</h1>
+    
+    <!-- Add Doctor Form -->
+    <div id="addDoctorForm">
+        <h2>Add Doctor</h2>
+        <label for="doctorName">Doctor Name:</label>
+        <input type="text" id="doctorName" placeholder="Enter Doctor Name">
+        <label for="qualification">Qualification:</label>
+        <input type="text" id="qualification" placeholder="Enter Qualification">
+        <label for="address">Address:</label>
+        <input type="text" id="address" placeholder="Enter Address">
+        <button onclick="addDoctor()">Add Doctor</button>
+    </div>
+    
+    <!-- Add Patient Form -->
+    <div id="addPatientForm">
+        <h2>Add Patient</h2>
+        <label for="patientName">Patient Name:</label>
+        <input type="text" id="patientName" placeholder="Enter Patient Name">
+        <label for="age">Age:</label>
+        <input type="number" id="age" placeholder="Enter Age">
+        <button onclick="addPatient()">Add Patient</button>
+    </div>
+    
+    <!-- Add Medicine Form -->
+    <div id="addMedicineForm">
+        <h2>Add Medicine</h2>
+        <label for="medicineName">Medicine Name:</label>
+        <input type="text" id="medicineName" placeholder="Enter Medicine Name">
+        <label for="expiryDate">Expiry Date:</label>
+        <input type="date" id="expiryDate">
+        <label for="dose">Dose:</label>
+        <input type="text" id="dose" placeholder="Enter Dose">
+        <label for="price">Price:</label>
+        <input type="number" id="price" placeholder="Enter Price">
+        <button onclick="addMedicine()">Add Medicine</button>
+    </div>
+    
+</body>
+
+</html>

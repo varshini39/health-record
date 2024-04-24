@@ -1,5 +1,51 @@
 [
     {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_name",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_expiryDate",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_dose",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_price",
+                "type": "uint256"
+            }
+        ],
+        "name": "addMedicine",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_patid",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_disease",
+                "type": "string"
+            }
+        ],
+        "name": "addPatientsDisease",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
         "inputs": [],
         "stateMutability": "nonpayable",
         "type": "constructor"
@@ -158,9 +204,45 @@
         "inputs": [
             {
                 "internalType": "uint256",
-                "name": "_id",
+                "name": "_patid",
                 "type": "uint256"
             },
+            {
+                "internalType": "uint256",
+                "name": "_medid",
+                "type": "uint256"
+            }
+        ],
+        "name": "prescribeMedicine",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_name",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_qualification",
+                "type": "string"
+            },
+            {
+                "internalType": "address",
+                "name": "_workPlace",
+                "type": "address"
+            }
+        ],
+        "name": "registerDoctor",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
             {
                 "internalType": "string",
                 "name": "_name",
@@ -168,21 +250,11 @@
             },
             {
                 "internalType": "uint256",
-                "name": "_expiryDate",
-                "type": "uint256"
-            },
-            {
-                "internalType": "string",
-                "name": "_dose",
-                "type": "string"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_price",
+                "name": "_age",
                 "type": "uint256"
             }
         ],
-        "name": "addMedicine",
+        "name": "registerPatient",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -195,12 +267,12 @@
                 "type": "uint256"
             },
             {
-                "internalType": "string",
-                "name": "_disease",
-                "type": "string"
+                "internalType": "uint256",
+                "name": "_age",
+                "type": "uint256"
             }
         ],
-        "name": "addPatientsDisease",
+        "name": "updatePatientDetails",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -327,6 +399,46 @@
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "getMedicineList",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "expiryDate",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "dose",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "price",
+                        "type": "uint256"
+                    }
+                ],
+                "internalType": "struct HealthRecords.Medicine[]",
+                "name": "",
+                "type": "tuple[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "uint256",
@@ -421,83 +533,6 @@
     {
         "inputs": [
             {
-                "internalType": "uint256",
-                "name": "_patid",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_medid",
-                "type": "uint256"
-            }
-        ],
-        "name": "prescribeMedicine",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "string",
-                "name": "_name",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "_qualification",
-                "type": "string"
-            },
-            {
-                "internalType": "address",
-                "name": "_workPlace",
-                "type": "address"
-            }
-        ],
-        "name": "registerDoctor",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "string",
-                "name": "_name",
-                "type": "string"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_age",
-                "type": "uint256"
-            }
-        ],
-        "name": "registerPatient",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_patid",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_age",
-                "type": "uint256"
-            }
-        ],
-        "name": "updatePatientDetails",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
                 "internalType": "address",
                 "name": "_doctor",
                 "type": "address"
@@ -569,53 +604,14 @@
         "name": "viewPatientData",
         "outputs": [
             {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            },
-            {
                 "internalType": "string",
                 "name": "",
                 "type": "string"
             },
             {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_patient",
-                "type": "uint256"
-            }
-        ],
-        "name": "viewPatientDataByDoctor",
-        "outputs": [
-            {
                 "internalType": "uint256",
                 "name": "",
                 "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            },
-            {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
             },
             {
                 "internalType": "string",

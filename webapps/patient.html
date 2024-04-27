@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient View</title>
+    <!-- Include web3.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.3/dist/web3.min.js"></script>
+    <script src="../src/app.js"></script>
+    <link rel="stylesheet" href="../css/patient.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Patient Details</h1>
+        <div class="input-container">
+            <input type="text" id="uuidInput" placeholder="Enter Your UUID">
+            <button id="viewDetailsBtn" onclick="fetchPatientDetails();">View Details</button>
+        </div>
+        <div id="patientDetails" class="hidden">
+            <h2>Your Details</h2>
+            <div id="detailsContainer">
+                <p><strong>Name:</strong> <span id="patientName"></span></p>
+                <p><strong>Age:</strong> <span id="patientAge"></span></p>
+                <p><strong>Diseases:</strong> <span id="patientDiseases"></span></p>
+                <p><strong>Medicines:</strong> <span id="patientMedicines"></span></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

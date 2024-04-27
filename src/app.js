@@ -20,6 +20,14 @@ var contract = null;
 // Admin address
 var contractAdmin = '0xcF7C2D4e51971028DC81340A874175f6438C8286';
 
+window.addEventListener('load', async () => {
+    await initializeContract();
+    const isDocForm = !!document.getElementById('doctor-form');
+    if (isDocForm) {
+        populateDoctors();
+    }
+});
+
 async function initializeContract() {
     const ganacheProvider = 'http://127.0.0.1:7545';
     const web3 = new Web3(ganacheProvider);
@@ -77,9 +85,9 @@ async function populatePatients() {
     const patients = await contract.methods.getAllPatients().call();
     const patientSelect = document.getElementById('patientSelect');
     patientSelect.innerHTML = '<option value="">Select Patient</option>';
-    patients.forEach((patient, index) => {
+    patients.forEach((patient) => {
         const option = document.createElement('option');
-        option.value = index + 1;
+        option.value = patient.uuid;
         option.textContent = patient.name;
         patientSelect.appendChild(option);
     });
@@ -243,14 +251,15 @@ async function addDoctor() {
 async function addPatient() {
     const patientName = document.getElementById('patientName').value;
     const age = document.getElementById('age').value;
-    //await contract.methods.registerPatient(patientName, age).send({ from: contractAdmin });
+    // Generate UUID for the patient
+    const uuid = generateUUID();
 
-    contract.methods.registerPatient(patientName, age)
+    contract.methods.registerPatient(patientName, age, uuid)
         .estimateGas({ from: contractAdmin })
         .then((gasEstimate) => {
             console.log(gasEstimate);
             // Send the transaction with a higher gas limit than the estimate
-            contract.methods.registerPatient(patientName, age)
+            contract.methods.registerPatient(patientName, age, uuid)
                 .send({ from: contractAdmin, gas: gasEstimate * 1 })
                 .then((tx) => {
                     console.log("Transaction successful:", tx);
@@ -259,7 +268,7 @@ async function addPatient() {
                     // Update UI with newly added patient
                     const patientList = document.getElementById('addedValuesList');
                     const patientItem = document.createElement('li');
-                    patientItem.textContent = `Patient: ${patientName}, ${age}`;
+                    patientItem.textContent = `Patient: ${patientName}, ${age}, ${uuid}`;
                     patientList.appendChild(patientItem);
                 })
                 .catch((error) => {
@@ -269,6 +278,13 @@ async function addPatient() {
         .catch((error) => {
             console.error("Gas estimation error:", error);
         });
+}
+
+// Function to generate UUID
+function generateUUID() {
+    // Generate a random 32-bit integer
+    const randomUint = Math.floor(Math.random() * 2 ** 32);
+    return randomUint;
 }
 
 // Function to add medicine
@@ -294,7 +310,8 @@ async function addMedicine() {
                     // Update UI with newly added medicine
                     const medicineList = document.getElementById('addedValuesList');
                     const medicineItem = document.createElement('li');
-                    medicineItem.textContent = `Medicine: ${medicineName}, ${expiryDate}, ${dose}, ${price}`;
+                    const expiryDateDisplay = new Date(expiryDate * 1000).toLocaleDateString()
+                    medicineItem.textContent = `Medicine: ${medicineName}, ${expiryDateDisplay}, ${dose}, ${price}`;
                     medicineList.appendChild(medicineItem);
                 })
                 .catch((error) => {
@@ -304,6 +321,26 @@ async function addMedicine() {
         .catch((error) => {
             console.error("Gas estimation error:", error);
         });
+}
+
+async function fetchPatientDetails() {
+    const patientId = document.getElementById('uuidInput').value;
+    const patientData = await contract.methods.viewPatientData(patientId).call();
+    console.log(patientData);
+    const name = patientData[0];
+    const age = patientData[1];
+    const diseases = patientData[2] || ''; // Use default value if diseases is empty
+    const meds = await getPrescribedMedicine(patientId);
+
+
+    // Update UI with patient details
+    document.getElementById('patientName').textContent = name;
+    document.getElementById('patientAge').textContent = age;
+    document.getElementById('patientDiseases').textContent = diseases;
+    document.getElementById('patientMedicines').textContent = meds.length > 0 ? meds : '-';
+
+    // Show the patient details section
+    document.getElementById('patientDetails').classList.remove('hidden');
 }
 
 // Function to open a tab

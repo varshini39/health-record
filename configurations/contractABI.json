@@ -31,7 +31,7 @@
         "inputs": [
             {
                 "internalType": "uint256",
-                "name": "_patid",
+                "name": "_uuid",
                 "type": "uint256"
             },
             {
@@ -56,7 +56,7 @@
             {
                 "indexed": true,
                 "internalType": "uint256",
-                "name": "patientId",
+                "name": "uuid",
                 "type": "uint256"
             },
             {
@@ -143,7 +143,7 @@
             {
                 "indexed": true,
                 "internalType": "uint256",
-                "name": "patientId",
+                "name": "uuid",
                 "type": "uint256"
             },
             {
@@ -162,7 +162,7 @@
             {
                 "indexed": true,
                 "internalType": "uint256",
-                "name": "patientId",
+                "name": "uuid",
                 "type": "uint256"
             },
             {
@@ -181,7 +181,7 @@
             {
                 "indexed": true,
                 "internalType": "uint256",
-                "name": "patientId",
+                "name": "uuid",
                 "type": "uint256"
             },
             {
@@ -204,7 +204,7 @@
         "inputs": [
             {
                 "internalType": "uint256",
-                "name": "_patid",
+                "name": "_uuid",
                 "type": "uint256"
             },
             {
@@ -252,6 +252,11 @@
                 "internalType": "uint256",
                 "name": "_age",
                 "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_uuid",
+                "type": "uint256"
             }
         ],
         "name": "registerPatient",
@@ -263,7 +268,7 @@
         "inputs": [
             {
                 "internalType": "uint256",
-                "name": "_patid",
+                "name": "_uuid",
                 "type": "uint256"
             },
             {
@@ -388,6 +393,11 @@
                         "internalType": "string",
                         "name": "diseases",
                         "type": "string"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "uuid",
+                        "type": "uint256"
                     }
                 ],
                 "internalType": "struct HealthRecords.Patient[]",
@@ -525,6 +535,30 @@
                 "internalType": "string",
                 "name": "diseases",
                 "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "uuid",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "patientUuids",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
             }
         ],
         "stateMutability": "view",
@@ -597,7 +631,7 @@
         "inputs": [
             {
                 "internalType": "uint256",
-                "name": "_patient",
+                "name": "_uuid",
                 "type": "uint256"
             }
         ],
@@ -626,7 +660,7 @@
         "inputs": [
             {
                 "internalType": "uint256",
-                "name": "_patient",
+                "name": "_uuid",
                 "type": "uint256"
             }
         ],

@@ -1,0 +1,102 @@
+ :root {
+     --primary-color: #1e88e5;
+     /* Blue */
+     --secondary-color: #00c853;
+     /* Green */
+     --text-color: #424242;
+     /* Dark Grey */
+ }
+
+ body {
+     font-family: Arial, sans-serif;
+     background-color: #f5f5f5;
+     /* Light Grey */
+     color: var(--text-color);
+     margin: 0;
+     padding: 0;
+ }
+
+ h1 {
+     margin-top: 20px;
+     text-align: center;
+     color: var(--primary-color);
+ }
+
+ /* Tab buttons */
+ .tab-button {
+     background-color: var(--primary-color);
+     color: white;
+     border: none;
+     padding: 10px 20px;
+     cursor: pointer;
+     font-size: 16px;
+     margin-right: 10px;
+     border-radius: 5px;
+ }
+
+ .tab-button.active {
+     background-color: var(--secondary-color);
+ }
+
+ /* Tab content */
+ .tab-content {
+     display: none;
+     padding: 20px;
+     background-color: white;
+     border-radius: 5px;
+     margin-top: 20px;
+     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+ }
+
+ /* Added values display */
+ .added-values {
+     margin-top: 20px;
+     padding: 20px;
+     background-color: #f0f0f0;
+     border-radius: 5px;
+ }
+
+ .added-values h3 {
+     margin-bottom: 10px;
+     color: var(--primary-color);
+ }
+
+ .added-values ul {
+     list-style-type: none;
+     padding: 0;
+ }
+
+ .added-values li {
+     margin-bottom: 5px;
+     color: var(--text-color);
+ }
+
+ /* Form fields */
+ label {
+     display: block;
+     margin-bottom: 5px;
+ }
+
+ input[type="text"],
+ input[type="number"],
+ input[type="date"] {
+     width: 90%;
+     padding: 10px;
+     margin-bottom: 10px;
+     border: 1px solid #ccc;
+     border-radius: 5px;
+ }
+
+ button {
+     background-color: var(--primary-color);
+     color: white;
+     border: none;
+     padding: 10px 20px;
+     cursor: pointer;
+     font-size: 16px;
+     border-radius: 5px;
+ }
+
+ button:hover {
+     background-color: var(--secondary-color);
+ }

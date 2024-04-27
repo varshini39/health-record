@@ -17,6 +17,7 @@ contract HealthRecords {
         string name;
         uint age;
         string diseases;
+        uint uuid;
     }
 
     struct Medicine {
@@ -35,6 +36,7 @@ contract HealthRecords {
     uint doctorCount;
     uint medicineCount;
     address[] public doctorAddresses;
+    uint[] public patientUuids;
 
     constructor() {
         contractOwner = msg.sender;
@@ -51,11 +53,11 @@ contract HealthRecords {
     }
 
     event DoctorRegistered(address indexed doctorAddress, string name, string qualification, address workPlace);
-    event PatientRegistered(uint indexed patientId, string name, uint age);
-    event DiseaseAdded(uint indexed patientId, string disease);
+    event PatientRegistered(uint indexed uuid, string name, uint age);
+    event DiseaseAdded(uint indexed uuid, string disease);
     event MedicineAdded(uint indexed id, string name, uint expiryDate, string dose, uint price);
-    event MedicinePrescribed(uint indexed patientId, uint indexed medicineId);
-    event PatientDetailsUpdated(uint indexed patientId, uint newAge);
+    event MedicinePrescribed(uint indexed uuid, uint indexed medicineId);
+    event PatientDetailsUpdated(uint indexed uuid, uint newAge);
    
     function registerDoctor(string memory _name, string memory _qualification, address _workPlace) onlyAdmin public {
         doctors[_workPlace] = Doctor(_name, _qualification, _workPlace);
@@ -64,15 +66,16 @@ contract HealthRecords {
         emit DoctorRegistered(_workPlace, _name, _qualification, _workPlace);
     }
 
-    function registerPatient(string memory _name, uint _age) public {
+    function registerPatient(string memory _name, uint _age, uint _uuid) public {
+        patients[_uuid] = Patient(_name, _age, "", _uuid);
+        patientUuids.push(_uuid);
         patientCount++;
-        patients[patientCount] = Patient(_name, _age, "");
-        emit PatientRegistered(patientCount, _name, _age);
+        emit PatientRegistered(_uuid, _name, _age);
     }
 
-    function addPatientsDisease(uint _patid, string memory _disease) public {
-        patients[_patid].diseases = _disease;
-        emit DiseaseAdded(_patid, _disease);
+    function addPatientsDisease(uint _uuid, string memory _disease) public {
+        patients[_uuid].diseases = _disease;
+        emit DiseaseAdded(_uuid, _disease);
     }
 
     function addMedicine(string memory _name, uint _expiryDate, string memory _dose, uint _price) public {
@@ -81,31 +84,31 @@ contract HealthRecords {
         emit MedicineAdded(medicineCount, _name, _expiryDate, _dose, _price);
     }
 
-    function prescribeMedicine(uint _patid, uint _medid) public onlyDoctors {
-        require(patients[_patid].age > 0, "Patient not found.");
+    function prescribeMedicine(uint _uuid, uint _medid) public onlyDoctors {
+        require(patients[_uuid].age > 0, "Patient not found.");
         // Check if the medicine ID is not already prescribed
-        for (uint i = 0; i < patientPrescriptions[_patid].length; i++) {
-            require(patientPrescriptions[_patid][i] != _medid, "Medicine already prescribed to the patient.");
+        for (uint i = 0; i < patientPrescriptions[_uuid].length; i++) {
+            require(patientPrescriptions[_uuid][i] != _medid, "Medicine already prescribed to the patient.");
         }
-        patientPrescriptions[_patid].push(_medid);
-        emit MedicinePrescribed(_patid, _medid);
+        patientPrescriptions[_uuid].push(_medid);
+        emit MedicinePrescribed(_uuid, _medid);
     }
 
-    function updatePatientDetails(uint _patid, uint _age) public {
-        patients[_patid].age = _age;
-        emit PatientDetailsUpdated(_patid, _age);
+    function updatePatientDetails(uint _uuid, uint _age) public {
+        patients[_uuid].age = _age;
+        emit PatientDetailsUpdated(_uuid, _age);
     }
 
-    function viewPatientData(uint _patient) public view returns (string memory, uint, string memory) {
-        return (patients[_patient].name, patients[_patient].age, patients[_patient].diseases);
+    function viewPatientData(uint _uuid) public view returns (string memory, uint, string memory) {
+        return (patients[_uuid].name, patients[_uuid].age, patients[_uuid].diseases);
     }
 
     function viewMedicineDetails(uint _id) public view returns (string memory, uint, string memory, uint) {
         return (medicines[_id].name, medicines[_id].expiryDate, medicines[_id].dose, medicines[_id].price);
     }
 
-    function viewPrescribedMedicine(uint _patient) public view onlyDoctors returns (uint[] memory) {
-        return patientPrescriptions[_patient];
+    function viewPrescribedMedicine(uint _uuid) public view onlyDoctors returns (uint[] memory) {
+        return patientPrescriptions[_uuid];
     }
 
     function viewDoctorDetails(address _doctor) public view returns (string memory, string memory, address) {
@@ -115,9 +118,11 @@ contract HealthRecords {
 
     // Function to fetch all patients' details
     function getAllPatients() public view returns (Patient[] memory) {
-        Patient[] memory allPatients = new Patient[](patientCount);
-        for (uint i = 1; i <= patientCount; i++) {
-            allPatients[i - 1] = patients[i];
+        Patient[] memory allPatients = new Patient[](patientUuids.length);
+        for (uint i = 0; i < patientUuids.length; i++) {
+            uint patUuid = patientUuids[i];
+            Patient storage patient = patients[patUuid];
+            allPatients[i] = patient;
         }
         return allPatients;
     }

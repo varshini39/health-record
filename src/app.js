@@ -26,7 +26,7 @@ async function initializeContract() {
     const contractABI = await loadContractABI();
 
     // Define the address of the deployed Solidity contract
-    const contractAddress = '0x763740fd354511d14898F668f5f9b7d5Cb1e2D63';
+    const contractAddress = '0xe8253Ac2cf359389e49c4050F0616CDEc5591766';
 
     // Create a contract instance
     contract = new web3.eth.Contract(contractABI, contractAddress);
@@ -223,6 +223,12 @@ async function addDoctor() {
                 .then((tx) => {
                     console.log("Transaction successful:", tx);
                     alert('Doctor added successfully!');
+
+                    // Update UI with newly added doctor
+                    const doctorList = document.getElementById('addedValuesList');
+                    const doctorItem = document.createElement('li');
+                    doctorItem.textContent = `Doctor: ${doctorName}, ${qualification}, ${address}`;
+                    doctorList.appendChild(doctorItem);
                 })
                 .catch((error) => {
                     console.error("Transaction error:", error);
@@ -249,6 +255,12 @@ async function addPatient() {
                 .then((tx) => {
                     console.log("Transaction successful:", tx);
                     alert('Patient added successfully!');
+
+                    // Update UI with newly added patient
+                    const patientList = document.getElementById('addedValuesList');
+                    const patientItem = document.createElement('li');
+                    patientItem.textContent = `Patient: ${patientName}, ${age}`;
+                    patientList.appendChild(patientItem);
                 })
                 .catch((error) => {
                     console.error("Transaction error:", error);
@@ -278,6 +290,12 @@ async function addMedicine() {
                 .then((tx) => {
                     console.log("Transaction successful:", tx);
                     alert('Medicine added successfully!');
+
+                    // Update UI with newly added medicine
+                    const medicineList = document.getElementById('addedValuesList');
+                    const medicineItem = document.createElement('li');
+                    medicineItem.textContent = `Medicine: ${medicineName}, ${expiryDate}, ${dose}, ${price}`;
+                    medicineList.appendChild(medicineItem);
                 })
                 .catch((error) => {
                     console.error("Transaction error:", error);
@@ -286,4 +304,27 @@ async function addMedicine() {
         .catch((error) => {
             console.error("Gas estimation error:", error);
         });
+}
+
+// Function to open a tab
+function openTab(tabName) {
+    var i;
+    var tabContents = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabContents.length; i++) {
+        tabContents[i].style.display = "none";
+    }
+    document.getElementById(tabName).style.display = "block";
+    setActiveButton(tabName);
+}
+
+// Function to set active tab button
+function setActiveButton(tabName) {
+    var tabButtons = document.getElementsByClassName("tab-button");
+    for (var i = 0; i < tabButtons.length; i++) {
+        tabButtons[i].classList.remove("active");
+    }
+    var activeButton = document.querySelector('button[data-tab="' + tabName + '"]');
+    if (activeButton) {
+        activeButton.classList.add("active");
+    }
 }
